@@ -1,4 +1,4 @@
-(defproject net.mikera/core.matrix.testing "0.0.1-SNAPSHOT"
+(defproject net.mikera/core.matrix.testing "0.0.1"
   :description "Testing library for core.matrix implementations"
   
   :dependencies [[org.clojure/clojure "1.7.0-beta3"]
