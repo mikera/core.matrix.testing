@@ -1,7 +1,7 @@
 (defproject net.mikera/core.matrix.testing "0.0.1-SNAPSHOT"
   :description "Testing library for core.matrix implementations"
   
-  :dependencies [[org.clojure/clojure "1.7.0-beta2"]
+  :dependencies [[org.clojure/clojure "1.7.0-beta3"]
                  [org.clojure/test.check "0.7.0"]
                  [net.mikera/core.matrix "0.34.0"]
                  [net.mikera/vectorz-clj "0.29.0"]
