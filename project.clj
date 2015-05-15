@@ -5,7 +5,8 @@
                  [org.clojure/test.check "0.7.0"]
                  [net.mikera/core.matrix "0.34.0"]
                  [net.mikera/vectorz-clj "0.29.0"]
-                 [net.mikera/clojure-utils "0.6.1"]]
+                 [net.mikera/clojure-utils "0.6.1"]
+                 [net.mikera/cljunit "0.3.1"]]
   
   :repositories {"clojars.org" "http://clojars.org/repo"}
   :parent [net.mikera/clojure-pom "0.4.0"]
