@@ -8,7 +8,7 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* true)
 
-(defn gen-resize 
+(defn gen-scale 
   "Creates a generator that pre-modifies the 'size' pramater with the function f. Use if you want to 
    have the size grow at a different rate from the normal linear scaling."
   ([f gen]
@@ -20,7 +20,7 @@
 
 (def gen-dims
   "A generator for dimensionalities (including zero). Grows quite slowly."
-  (gen-resize #(Math/pow (double %) 0.333) gen/pos-int))
+  (gen-scale #(Math/pow (double %) 0.333) gen/pos-int))
 
 (def gen-s-pos-dims
   "A generator for dimensionalities greated than or equal to one. Grows quite slowly."
@@ -28,11 +28,28 @@
 
 (defn gen-shape 
   "Creates a generator that returns valid core.matrix shapes for arrays, with strictly positive 
-   dimension sizes. Grows linearly in the number of elements."
+   dimension sizes. Grows roughly linearly in the number of elements."
   ([]
     (gen-shape gen-dims))
   ([gen-dims]
     (gen/bind gen-dims
               (fn [dims]
-                (gen/vector (gen-resize #(Math/pow (double %) (/ 1.0 (double dims))) gen/s-pos-int) 
+                (gen/vector (gen-scale #(Math/pow (double %) (/ 1.0 (double dims))) gen/s-pos-int) 
                             dims)))))
+
+(defn gen-array
+  "Creates a generator that returns arrays"
+  ([gen-shape gen-element]
+    (gen-array gen-shape gen-element (current-implementation)))
+  ([g-shape g-element impl-or-g-impl]
+    (let [g-impl (if (gen/generator? impl-or-g-impl) impl-or-g-impl (gen/return impl-or-g-impl))]
+      (gen/bind 
+        g-shape
+        (fn [shape]
+          (gen/bind 
+            g-impl
+            (fn [impl]
+              (gen/fmap
+                (fn [elts]
+                  (array impl (reshape elts shape)))
+                (gen/vector g-element (reduce * 1 shape))))))))))
