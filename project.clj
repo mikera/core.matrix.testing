@@ -8,6 +8,11 @@
                  [net.mikera/clojure-utils "0.6.1"]
                  [net.mikera/cljunit "0.3.1"]]
   
+  :license {:name "Eclipse Public License - v 1.0"
+            :url "http://www.eclipse.org/legal/epl-v10.html"
+            :distribution :repo
+            :comments "same as Clojure"}
+  
   :repositories {"clojars.org" "http://clojars.org/repo"}
   :parent [net.mikera/clojure-pom "0.4.0"]
   :source-paths ["src/main/clojure"]
