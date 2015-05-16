@@ -31,12 +31,12 @@
 ;; Check if we can construct matrix and get nested vectors back
 
 (defspec to-nested-vector num-tests
-  (let [array-generator (genm/gen-array (genm/gen-shape) genm/gen-impl)]
+  (let [array-generator (genm/gen-array (genm/gen-shape) genm/gen-double genm/gen-impl)]
     (prop/for-all [a array-generator]
       (let [pa (to-nested-vectors a)]
         (equals a pa))
       (let [pa (to-nested-vectors a)]
-        (equals (shape a) (shape pa))))))
+        (equals (or (shape a) []) (or (shape pa) [])))))) ;; to allow for nil shape
 
 ;; Check if new-vector returns zero- or null- filled vector of given size
 (defspec new-vector-zero-filled num-tests
