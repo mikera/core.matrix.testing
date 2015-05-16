@@ -15,19 +15,6 @@
 
 (def num-tests 100)
 
-;; # Helpers
-;;
-;; ## Generators
-
-(def gen-impl
-  (gen/elements [:ndarray :persistent-vector :vectorz :object-array :double-array]))
-
-;; TODO: n should be generated as well
-(defn gen-vec-mtx [n]
-  (gen/vector (gen/vector gen/int n) n))
-
-;; TODO: write N-Dimensional array generator
-
 ;; ## Predicates
 
 (defn proper-matrix?
@@ -43,55 +30,25 @@
 ;;
 ;; Check if we can construct matrix and get nested vectors back
 
-(defspec matrix-constructible num-tests
-  (prop/for-all [impl gen-impl
-                 vec-mtx (gen-vec-mtx 5)]
-    (let [mtx (matrix impl vec-mtx)]
-      (equals vec-mtx (to-nested-vectors mtx)))))
-
-;; Check if we can construct an array and get nested vectors back
-;; TODO: here we should use N-Dimensional array
-(defspec array-constructible num-tests
-  (prop/for-all [impl gen-impl
-                 vec-mtx (gen-vec-mtx 5)]
-    (let [mtx (array impl vec-mtx)]
-      (equals vec-mtx (to-nested-vectors mtx)))))
+(defspec to-nested-vector num-tests
+  (let [array-generator (genm/gen-array (genm/gen-shape) genm/gen-impl)]
+    (prop/for-all [a array-generator]
+      (let [pa (to-nested-vectors a)]
+        (equals a pa))
+      (let [pa (to-nested-vectors a)]
+        (equals (shape a) (shape pa))))))
 
 ;; Check if new-vector returns zero- or null- filled vector of given size
 (defspec new-vector-zero-filled num-tests
-  (prop/for-all [impl gen-impl
-                 l gen/pos-int]
+  (prop/for-all [l gen/pos-int
+                 impl genm/gen-impl]
     (let [vec (new-vector l)
           vec-vec (to-nested-vectors vec)]
       (and (every? #(or (nil? %) (== 0 %))
                    vec-vec)
            (== l (count vec-vec))))))
 
-;; Check if new-matrix returns zero- or null- filled matrix of given size
-(defspec new-matrix-zero-filled num-tests
-  (prop/for-all [impl gen-impl
-                 rows gen/s-pos-int
-                 cols gen/s-pos-int]
-    (let [mtx (new-matrix rows cols)
-          vec-mtx (to-nested-vectors mtx)]
-      (and (every? #(or (nil? %) (== 0 %))
-                   (flatten vec-mtx))
-           (proper-matrix? vec-mtx)
-           (== rows (count vec-mtx))
-           (== cols (count (first vec-mtx)))))))
 
-;; Check if new-array returns zero- or null- filled matrix of given size
-;; TODO: find out why this hangs
-#_(defspec new-array-zero-filled num-tests
-  (prop/for-all [impl gen-impl
-                 arr-shape (gen/vector gen-strictly-pos-int)]
-    (let [arr (new-array arr-shape)
-          vec-arr (to-nested-vectors arr)]
-      (and (every? #(or (nil? %) (== 0 %))
-                   (flatten vec-arr))
-           #_(proper-array? vec-mtx)
-           (= arr-shape (shape vec-arr))
-           (= arr-shape (shape arr))))))
 
 (defspec householder-matrix-props num-tests
   (prop/for-all [;; shrinking of keywords is broken in current simple-check
