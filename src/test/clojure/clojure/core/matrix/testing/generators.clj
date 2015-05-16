@@ -8,6 +8,9 @@
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* true)
 
+;; ===========================================
+;; Dimension, shape and scaling generators
+
 (defn gen-scale 
   "Creates a generator that pre-modifies the 'size' pramater with the function f. Use if you want to 
    have the size grow at a different rate from the normal linear scaling."
@@ -37,10 +40,19 @@
                 (gen/vector (gen-scale #(Math/pow (double %) (/ 1.0 (double dims))) gen/s-pos-int) 
                             dims)))))
 
+(def gen-matrix-shape
+  (gen-shape (gen/return 2)))
+
+(def gen-vector-shape
+  (gen/fmap vector gen/s-pos-int))
+
+;; ===========================================
+;; Array generators
+
 (defn gen-array
   "Creates a generator that returns arrays"
-  ([gen-shape gen-element]
-    (gen-array gen-shape gen-element (current-implementation)))
+  ([g-shape g-element]
+    (gen-array g-shape g-element (current-implementation)))
   ([g-shape g-element impl-or-g-impl]
     (let [g-impl (if (gen/generator? impl-or-g-impl) impl-or-g-impl (gen/return impl-or-g-impl))]
       (gen/bind 
@@ -53,3 +65,19 @@
                 (fn [elts]
                   (array impl (reshape elts shape)))
                 (gen/vector g-element (reduce * 1 shape))))))))))
+
+(defn gen-matrix
+  "Creates a generator for 2 dimensional matrices. Uses the supplied generators for implementation 
+   and elements if specified."
+  ([g-element]
+    (gen-array gen-matrix-shape g-element))
+  ([g-element impl-or-g-impl]
+    (gen-array gen-matrix-shape g-element impl-or-g-impl)))
+
+(defn gen-vector
+  "Creates a generator for 1 dimensional vectors. Uses the supplied generators for implementation 
+   and elements if specified."
+  ([g-element]
+    (gen-array gen-vector-shape g-element))
+  ([g-element impl-or-g-impl]
+    (gen-array gen-vector-shape g-element impl-or-g-impl)))
