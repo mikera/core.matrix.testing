@@ -17,4 +17,5 @@
   :parent [net.mikera/clojure-pom "0.4.0"]
   :source-paths ["src/main/clojure"]
   :test-paths ["src/test/clojure"]
+  :target-path "target/%s/"
   :resource-paths ["src/test/resources"])
