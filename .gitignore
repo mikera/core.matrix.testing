@@ -6,3 +6,4 @@
 /.lein-failures
 /.settings/
 /.nrepl-port
+/pom.xml.asc
