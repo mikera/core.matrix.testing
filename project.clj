@@ -1,4 +1,4 @@
-(defproject net.mikera/core.matrix.testing "0.0.3"
+(defproject net.mikera/core.matrix.testing "0.0.4-SNAPSHOT"
   :description "Testing library for core.matrix implementations"
   
   :url "https://github.com/mikera/core.matrix.testing"
