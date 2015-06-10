@@ -291,7 +291,12 @@
       (is (= (seq (eseq m)) (seq arr))))))
 
 (defn test-shape [m]
-  (is (equals (shape m) (mp/validate-shape m))))
+  (let [sh (shape m)
+        dims (dimensionality m)]
+    (is (equals sh (mp/validate-shape m)))
+    (is (== dims (count sh)))
+    (dotimes [i dims]
+      (is (== (nth sh i) (dimension-count m i))))))
 
 (defn test-array-assumptions [m]
   ;; note: these must work on *any* array, i.e. no pre-assumptions on element type etc.
