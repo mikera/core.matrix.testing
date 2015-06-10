@@ -11,6 +11,7 @@
   (ctest/instance-test [[1 2] [3 4]])
   (ctest/instance-test (double-array [1 2 -3]))
   (ctest/instance-test (object-array [-1 2 -3]))
+  (ctest/instance-test (array :ndarray [-1 2 -3]))
   ;; (ctest/instance-test (array :vectorz [[1 2] [3 4]]))
   )
 
