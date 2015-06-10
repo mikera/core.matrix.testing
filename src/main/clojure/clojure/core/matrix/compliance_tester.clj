@@ -290,8 +290,12 @@
     (testing "object array should equal element sequence"
       (is (= (seq (eseq m)) (seq arr))))))
 
+(defn test-shape [m]
+  (is (equals (shape m) (mp/validate-shape m))))
+
 (defn test-array-assumptions [m]
   ;; note: these must work on *any* array, i.e. no pre-assumptions on element type etc.
+  (test-shape m)
   (test-as-vector m)
   (test-coerce m)
   (test-pack m)
