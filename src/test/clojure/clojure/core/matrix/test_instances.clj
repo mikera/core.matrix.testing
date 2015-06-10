@@ -4,5 +4,9 @@
   (:require [clojure.core.matrix.compliance-tester :as ctest]))
 
 (deftest clojure.core.matrix.test-instances
-  (ctest/instance-test [1 2 3]))
+  (ctest/instance-test 0)
+  (ctest/instance-test -1.75)
+  (ctest/instance-test [1 2 3])
+  (ctest/instance-test [[1] [2]])
+  (ctest/instance-test [[1 2] [3 4]]))
 

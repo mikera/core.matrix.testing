@@ -291,9 +291,9 @@
       (is (= (seq (eseq m)) (seq arr))))))
 
 (defn test-shape [m]
-  (let [sh (shape m)
+  (let [sh (or (shape m) [])
         dims (dimensionality m)]
-    (is (equals sh (mp/validate-shape m)))
+    (is (equals sh (or (mp/validate-shape m) [])))
     (is (== dims (count sh)))
     (dotimes [i dims]
       (is (== (nth sh i) (dimension-count m i))))))
