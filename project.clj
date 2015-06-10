@@ -5,8 +5,8 @@
   
   :dependencies [[org.clojure/clojure "1.7.0-RC1"]
                  [org.clojure/test.check "0.7.0"]
-                 [net.mikera/core.matrix "0.34.0"]
-                 [net.mikera/vectorz-clj "0.29.0"]
+                 [net.mikera/core.matrix "0.36.0"]
+                 [net.mikera/vectorz-clj "0.30.0"]
                  [net.mikera/clojure-utils "0.6.1"]
                  [net.mikera/cljunit "0.3.1"]]
   
@@ -18,6 +18,8 @@
   :repositories {"clojars.org" "http://clojars.org/repo"}
   :parent [net.mikera/clojure-pom "0.4.0"]
   :source-paths ["src/main/clojure"]
+  :java-source-paths ["src/main/java"]
+  
   :test-paths ["src/test/clojure"]
   :target-path "target/%s/"
   :resource-paths ["src/test/resources"])
