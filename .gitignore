@@ -1,9 +1,7 @@
 /.project
 /bin/
 /.classpath
-/pom.xml
 /target/
 /.lein-failures
 /.settings/
 /.nrepl-port
-/pom.xml.asc
