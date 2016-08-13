@@ -1,5 +1,5 @@
 package core.matrix.testing;
-
+ 
 import mikera.cljunit.ClojureTest;
 
 public class CoreMatrixTest extends ClojureTest {

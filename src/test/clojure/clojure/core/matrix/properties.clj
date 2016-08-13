@@ -4,8 +4,7 @@
             [clojure.test.check.properties :as prop]
             [clojure.test.check.clojure-test :refer (defspec)]
             [clojure.core.matrix.generators :as genm]
-            [clojure.core.matrix :refer :all]
-            [clojure.core.matrix.linear :refer :all]))
+            [clojure.core.matrix :refer :all]))
 
 ;; Property based testing of randomly generated core.matrix arrays
 
